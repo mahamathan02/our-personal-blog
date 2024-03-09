@@ -10,6 +10,12 @@ firebase-debug.*.log*
 # Firebase cache
 .firebase/
 
+# file to ignore
+./serviceAccountKey.json
+serviceAccountKey.json
+.env
+env
+
 # Firebase config
 
 # Uncomment this if you'd like others to create their own Firebase project.
