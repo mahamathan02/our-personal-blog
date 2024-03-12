@@ -82,3 +82,32 @@ exports.getBlogById = functions.https.onRequest(async (req, res) => {
     }
   });
 });
+
+// update the blog
+exports.updateBlogId = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    try {
+      const id = req.query.id;
+      const timestamp = FieldValue.serverTimestamp();
+      const data = {
+        timestamp,
+        ...req.body,
+      };
+      if (!id) {
+        return res.status(500).json({ msg: "Id Parameter is missing" });
+      }
+
+      const docRef = db.collection("blogs").doc(id);
+      const snapShot = await docRef.get();
+
+      if (snapShot.exists) {
+        await docRef.update(data);
+        return res.status(200).json("Blog updated successfully");
+      } else {
+        return res.status(200).json({ id, msg: "Node Data Found" });
+      }
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  });
+});
